@@ -33,6 +33,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITabBarDelegate 
                 self.todoList.insert(textField.text!, at: 0)
                 //テーブルに配列が追加されたことをテーブルに通知
                 self.tableView.insertRows(at: [IndexPath(row: 0,section: 0)], with: UITableViewRowAnimation.right)
+                let ud = UserDefaults.standard
+                ud.setValue(self.todoList, forKey: "todoList")
+                ud.synchronize()
             }
         }
         //OKボタン追加
@@ -63,6 +66,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITabBarDelegate 
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //保存しているToDoの読み込み処理
+        let ud = UserDefaults.standard
+        if let stredTodoList = ud.array(forKey: "todoList") as? [String]{
+            todoList.append(contentsOf: stredTodoList)
+        }
     }
 
     override func didReceiveMemoryWarning() {
