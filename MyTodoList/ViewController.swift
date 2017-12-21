@@ -94,7 +94,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         } else {
             myTodo.todoDone = true
         }
-        print(myTodo.todoDone)
+        
+        //Cellの状態を変更
+        tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.fade)
+        
+        //データ保存。Data型にシリアライズする
+        let data:Data = NSKeyedArchiver.archivedData(withRootObject: todoList)
+        
+        //userDefaultsに保存
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(data, forKey: "todoList")
+        userDefaults.synchronize()
     }
 
     
