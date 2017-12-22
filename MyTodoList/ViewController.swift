@@ -121,8 +121,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             if let unarchiveTodoList =  NSKeyedUnarchiver.unarchiveObject(with: stredTodoList) as? [MyTodo] {
                 todoList.append(contentsOf: unarchiveTodoList)
             }
-
-//            todoList.append(contentsOf: stredTodoList)
         }
     }
 
@@ -139,9 +137,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         //削除可能かどうか
         if editingStyle == UITableViewCellEditingStyle.delete {
-            //TODOリストから削除
-            print("delete")
 
+            //TODOリストから削除
             todoList.remove(at: indexPath.row)
             
             //Cellを削除
