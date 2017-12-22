@@ -129,6 +129,33 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    //Cellが編集可能かどうか返却する
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    //Cellを削除した時の処理
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        //削除可能かどうか
+        if editingStyle == UITableViewCellEditingStyle.delete {
+            //TODOリストから削除
+            print("delete")
+
+            todoList.remove(at: indexPath.row)
+            
+            //Cellを削除
+            tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.fade)
+            
+            //deta型にシリアライズ
+            let data:Data = NSKeyedArchiver.archivedData(withRootObject: todoList)
+            
+            //userDefaultに保存
+            let userDefault = UserDefaults.standard
+            userDefault.set(data, forKey: "todoList")
+            userDefault.synchronize()
+        }
+    }
 }
 
 //独自クラスをシリアライズする際にはNSObjectを継承し
